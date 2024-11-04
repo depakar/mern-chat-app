@@ -1,24 +1,55 @@
-import mongoose from "mongoose";
 
+import mongoose from 'mongoose';
 const conversationSchema = new mongoose.Schema(
-	{ //used to store user id in participants array
-		participants: [
-			{
-				type: mongoose.Schema.Types.ObjectId,
-				ref: "User",
-			},
-		],
-		messages: [//used to store messages id in messages array
-			{
-				type: mongoose.Schema.Types.ObjectId,
-				ref: "Message",
-				default: [],
-			},
-		],
+	{
+	  participants: [
+		{
+		  type: mongoose.Schema.Types.ObjectId,
+		  ref: "User",
+		},
+	  ],
+	  messages: [
+		{
+		  type: mongoose.Schema.Types.ObjectId,
+		  ref: "Message",
+		  default: [],
+		},
+	  ],
+	  lastMessage: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "Message",
+	  },
+	  unreadCounts: [
+		{
+		  userId: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "User",
+		  },
+		  count: {
+			type: Number,
+			default: 0,
+		  },
+		},
+	  ],
+	  lastReadTimestamps: [
+		{
+		  userId: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "User",
+		  },
+		  lastRead: {
+			type: Date,
+			default: null,
+		  },
+		},
+	  ],
 	},
 	{ timestamps: true }
-);
-
-const Conversation = mongoose.model("Conversation", conversationSchema);
-
-export default Conversation;
+  );
+  
+  conversationSchema.index({ participants: 1 });
+  
+  const Conversation = mongoose.model("Conversation", conversationSchema);
+  
+  export default Conversation;
+  

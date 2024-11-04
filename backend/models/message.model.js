@@ -17,6 +17,10 @@ const messageSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
+		seen: {
+			type: Boolean,
+			default: false, // Initially set to false until the message is viewed by the recipient
+		  },
 		// createdAt, updatedAt
 	},
 	{ timestamps: true }
